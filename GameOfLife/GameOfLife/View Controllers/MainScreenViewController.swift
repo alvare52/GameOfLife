@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SpriteKit
 
 class MainScreenViewController: UIViewController {
 
@@ -19,6 +20,7 @@ class MainScreenViewController: UIViewController {
     @IBAction func infoButtonTapped(_ sender: UIBarButtonItem) {
         print("Info tapped")
     }
+    @IBOutlet var gridSKView: SKView!
     
     // MARK: - Properties
     
@@ -30,6 +32,7 @@ class MainScreenViewController: UIViewController {
         
         // Makes status bar have white text
         navigationController?.navigationBar.barStyle = .black
+        gridSKView.presentScene(GridScene(size: view.bounds.size))
     }
     
 

@@ -14,7 +14,21 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <skView contentMode="scaleToFill" sceneName="GridScene" translatesAutoresizingMaskIntoConstraints="NO" id="oVs-66-W0F">
+                                <rect key="frame" x="20" y="108" width="374" height="374"/>
+                                <color key="backgroundColor" red="0.98823529409999999" green="0.17018812890000001" blue="0.176234901" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="oVs-66-W0F" secondAttribute="height" multiplier="1:1" id="VLG-9O-ndo"/>
+                                </constraints>
+                            </skView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oVs-66-W0F" secondAttribute="trailing" constant="20" id="5d8-OI-pYu"/>
+                            <constraint firstItem="oVs-66-W0F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="EW0-rJ-fDT"/>
+                            <constraint firstItem="oVs-66-W0F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="iAl-2U-x1v"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Conway's Game of Life" id="jOh-Fo-GlW">
@@ -29,6 +43,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="gridSKView" destination="oVs-66-W0F" id="fJi-nw-Mie"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
