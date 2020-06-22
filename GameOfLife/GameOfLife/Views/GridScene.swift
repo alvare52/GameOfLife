@@ -154,57 +154,14 @@ class GridScene: SKScene {
                     
                     if touchEnabled {
                         node.fillColor = rightColor
+                        let systemSoundID: SystemSoundID = 1104
+                        AudioServicesPlaySystemSound (systemSoundID)
                     }
-//                    // If obstacles are touched (not needed)
-//                    if theName == "Ball" && touchEnabled {
-//                        //self.removeChildren(in: [self.atPoint(location)])
-//                        node.isUserInteractionEnabled = true
-//                        node.fillColor = rightColor
-//                        // Makes sound when you tap anywhere on screen
-//                        let systemSoundID: SystemSoundID = 1104
-//                        AudioServicesPlaySystemSound (systemSoundID)
-//                        score += 1
-//                        print("RIGHT , Score = \(score)")
-//                        scoreLabel.text = "Health = \(score)"
-//                        if score == rightCount {
-//                            allRight()
-//                        }
-//                    }
-//
-//                    if theName == "Bomb" && touchEnabled {
-//                        //self.removeChildren(in: [self.atPoint(location)])
-//                        node.isUserInteractionEnabled = true
-//                        node.fillColor = wrongColor
-//                        allWrong()
-//                        print("WRONG")
-//                        score = 0
-//                        scoreLabel.text = "Health = \(score)"
-//                    }
+
                 }
-                //node.isUserInteractionEnabled = true
-                //node.fillColor = UIColor.red
             }
             
             print("location.x = \(location.x)")
-            /*
-             if let theName = self.atPoint(location).name {
-             // If obstacles are touched (not needed)
-             if theName == "Ball" {
-             
-             //self.removeChildren(in: [self.atPoint(location)])
-             score += 1
-             print("POP , Score = \(score)")
-             scoreLabel.text = "Health = \(score)"
-             }
-             
-             if theName == "Bomb" {
-             //self.removeChildren(in: [self.atPoint(location)])
-             print("BOOM")
-             score = 0
-             scoreLabel.text = "Health = \(score)"
-             }
-             }
-             */
         }
         print("Touched Anywhere")
     }

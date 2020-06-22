@@ -22,12 +22,38 @@
                                     <constraint firstAttribute="width" secondItem="oVs-66-W0F" secondAttribute="height" multiplier="1:1" id="VLG-9O-ndo"/>
                                 </constraints>
                             </skView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Generation 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMR-LZ-v0d">
+                                <rect key="frame" x="20" y="502" width="374" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tUS-yt-a3J">
+                                <rect key="frame" x="20" y="551" width="374" height="45"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <state key="normal" title="Start">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="startButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eW9-MI-Y7n"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="tUS-yt-a3J" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="4NS-qL-Wjz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oVs-66-W0F" secondAttribute="trailing" constant="20" id="5d8-OI-pYu"/>
+                            <constraint firstItem="tUS-yt-a3J" firstAttribute="top" secondItem="RMR-LZ-v0d" secondAttribute="bottom" constant="20" id="6dy-jW-1zR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tUS-yt-a3J" secondAttribute="trailing" constant="20" id="98O-Ux-8H8"/>
                             <constraint firstItem="oVs-66-W0F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="EW0-rJ-fDT"/>
+                            <constraint firstItem="tUS-yt-a3J" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.05" id="FwI-Cz-BhT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RMR-LZ-v0d" secondAttribute="trailing" constant="20" id="WPA-C9-xDl"/>
+                            <constraint firstItem="RMR-LZ-v0d" firstAttribute="top" secondItem="oVs-66-W0F" secondAttribute="bottom" constant="20" id="bXR-Jn-Gm6"/>
                             <constraint firstItem="oVs-66-W0F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="iAl-2U-x1v"/>
+                            <constraint firstItem="RMR-LZ-v0d" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="mDj-rE-2aA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -44,7 +70,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="generationLabel" destination="RMR-LZ-v0d" id="ITC-mq-fgj"/>
                         <outlet property="gridSKView" destination="oVs-66-W0F" id="fJi-nw-Mie"/>
+                        <outlet property="startButtonLabel" destination="tUS-yt-a3J" id="NzV-CQ-zZB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
