@@ -31,11 +31,22 @@ class MainScreenViewController: UIViewController {
         print("Start Button tapped")
         generationCount += 1
         updateViews()
-        addBookToLibrary()
+        
+        // toggle start/stop and update button label
+        gameIsRunning.toggle()
+        if gameIsRunning {
+            startButtonLabel.setTitle("Stop", for: .normal)
+        } else {
+            startButtonLabel.setTitle("Start", for: .normal)
+        }
+        
+        //addBookToLibrary()
     }
     
     // MARK: - Properties
+    
     var generationCount = 0
+    var gameIsRunning = false
     
     // MARK: - View Life Cycle
     
