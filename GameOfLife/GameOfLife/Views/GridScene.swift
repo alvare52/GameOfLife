@@ -11,20 +11,10 @@ import Foundation
 import AVFoundation
 
 class GridScene: SKScene {
-    let player = SKShapeNode()
-    var scoreLabel = SKLabelNode()
-    var score: CGFloat = 0
-    var ballSize: CGFloat = 120.0
-    //let triangleShape = SKShapeNode()
-    var triangleSize: CGFloat = 62.5
-    let boundary = SKSpriteNode()
-    var tri = SKShapeNode()
-    var triangleSpeed = TimeInterval(1.4) // 1 and 0.3
-    var spawnRate = TimeInterval(0.6) // 1.5 0.5
-    var squareSize: CGFloat = 100
-    var bufferSpace: CGFloat = 11.25
-    var yBuffer: CGFloat = 3.9
-    var squareArray:[SKShapeNode] = [SKShapeNode]() // Property in your class
+   
+    // MARK: - Properties
+    
+    var squareArray:[[SKShapeNode]] = [[]]
     
     /// White, same as background color
     var outlineColor: UIColor = .white
@@ -32,9 +22,10 @@ class GridScene: SKScene {
     var wrongColor: UIColor = UIColor.black
     var hiddenColor: UIColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
     var rightCount: CGFloat = 0
-    var touchEnabled = false
-    var gridSize = 6
+    var touchEnabled = true
+    var gridSize = 5
     var currentSquareIndex = 0
+    var singleArray: [SKShapeNode] = [SKShapeNode]()
     
     override func didMove(to view: SKView) {
         
@@ -48,27 +39,23 @@ class GridScene: SKScene {
         pickRandoms()
     }
     
-    func makeGrid() {
+    private func makeGrid() {
         
-        //for i in 0..<len
-        //var i = 0
-        //var a = 0
-        // 125, 5x3, y: + 21
-        // size = Floor(frame.width / 4 )
         print("X: \(frame.width) Y: \(frame.height)")
         print("Size should be \(floor(frame.width / CGFloat(gridSize)))")
         let size: CGFloat = floor((self.view?.frame.width)! / CGFloat(gridSize))
         print("size is \(size)")
-        print("Containe View = \(self.view?.frame)")
         
         // left over from flooring
-        print("frame.width: \(self.view?.frame.width)")
         let xLeftOver: CGFloat = ((self.view?.frame.width)! - size * CGFloat(gridSize)) / 2
         let yLeftOver: CGFloat = ((self.view?.frame.height)! - size * CGFloat(gridSize)) / 2
 
         print("xLeftOver = \(xLeftOver) yLeftOver = \(yLeftOver)")
         
         for row in 0..<gridSize{
+            
+            // append a new array for every row
+            squareArray.append([SKShapeNode]())
             for col in 0..<gridSize{
                 print("row: \(row), col: \(col)")
                 let sprites = SKShapeNode(rectOf: CGSize(width: size, height: size))
@@ -87,47 +74,63 @@ class GridScene: SKScene {
                 print("position: \(sprites.position), size: \(sprites.frame.size)")
 
                 self.addChild(sprites)
-                squareArray.append(sprites)
+                print("row: \(row), col: \(col)")
+                singleArray.append(sprites)
+                squareArray[row].append(sprites)
             }
         }
+       
+        print(squareArray.count)
     }
     
     func clearGrid(){
-        for square in squareArray {
-            square.fillColor = outlineColor
-        }
-    }
-    
-    func pickRandoms() {
-        for sqaure in squareArray {
-            let random = Int.random(in: 0...2)
-            if random == 1 {
-                print(random)
-                sqaure.fillColor = rightColor
-            } else {
-                print(random)
+        for x in 0..<gridSize {
+            for y in 0..<gridSize{
+                squareArray[x][y].fillColor = hiddenColor
+                print("clearing [\(x)][\(y)]")
             }
         }
     }
-    
-    func runForever() {
+
+    func pickRandoms() {
         
-        print("currentSquareIndex = \(currentSquareIndex)")
-        
-        if currentSquareIndex >= gridSize * gridSize {
-            print("END")
-            return
+        for x in 0..<gridSize {
+            for y in 0..<gridSize{
+                let random = Int.random(in: 0...2)
+                if random == 1 {
+                    squareArray[x][y].fillColor = rightColor
+                }
+            }
         }
-        
-        squareArray[currentSquareIndex].fillColor = .purple
-        currentSquareIndex += 1
-        
-        run(SKAction.sequence([
-            SKAction.wait(forDuration: 0.1),
-            SKAction.run(runForever)
-        ])
-        )
+//        for sqaure in squareArray {
+//            let random = Int.random(in: 0...2)
+//            if random == 1 {
+//                print(random)
+//                sqaure.fillColor = rightColor
+//            } else {
+//                print(random)
+//            }
+//        }
     }
+
+//    func runForever() {
+//
+//        print("currentSquareIndex = \(currentSquareIndex)")
+//
+//        if currentSquareIndex >= gridSize * gridSize {
+//            print("END")
+//            return
+//        }
+//
+////        squareArray[currentSquareIndex].fillColor = .purple
+//        currentSquareIndex += 1
+//
+//        run(SKAction.sequence([
+//            SKAction.wait(forDuration: 0.1),
+//            SKAction.run(runForever)
+//        ])
+//        )
+//    }
     
     // runs 60 times every SECOND
     override func update(_ currentTime: CFTimeInterval) {
@@ -154,7 +157,7 @@ class GridScene: SKScene {
             let location = touch.location(in: self)
             
             if let node = atPoint(location) as? SKShapeNode {
-                
+                print("tapped node at a location")
                 if let theName = self.atPoint(location).name {
                     
                     if touchEnabled {

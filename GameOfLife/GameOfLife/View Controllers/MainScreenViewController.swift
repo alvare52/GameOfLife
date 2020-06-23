@@ -15,6 +15,7 @@ class MainScreenViewController: UIViewController {
     
     @IBAction func clearBoardTapped(_ sender: UIBarButtonItem) {
         print("Clear board")
+        gridScene.clearGrid()
     }
     
     @IBAction func infoButtonTapped(_ sender: UIBarButtonItem) {
