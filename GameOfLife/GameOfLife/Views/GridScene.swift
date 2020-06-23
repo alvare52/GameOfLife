@@ -37,17 +37,9 @@ class GridScene: SKScene {
         
         //player.size = CGSize(width: frame.width, height: frame.height)
         // Background Color
-        backgroundColor = outlineColor
-        
+        backgroundColor = .white
         print("Screen Height is \(self.frame.height), Width is \(self.frame.width)")
-        
         makeGrid()
-        
-//        run(SKAction.sequence([
-//            SKAction.wait(forDuration: 2),
-//            SKAction.run(hideColors)
-//            ])
-//        )
         hideColors()
     }
     
@@ -60,32 +52,49 @@ class GridScene: SKScene {
         // size = Floor(frame.width / 4 )
         print("X: \(frame.width) Y: \(frame.height)")
         print("Size should be \(floor(frame.width / CGFloat(gridSize)))")
-        let size: CGFloat = floor(frame.width / CGFloat(gridSize))
+        let size: CGFloat = floor((self.view?.frame.width)! / CGFloat(gridSize))
         print("size is \(size)")
+        print("Containe View = \(self.view?.frame)")
         
-        let xLeftOver: CGFloat = (frame.width - size * CGFloat(gridSize)) / 2
-        let yLeftOver: CGFloat = (frame.height - size * CGFloat(gridSize)) / 2
+        // left over from flooring
+        print("frame.width: \(self.view?.frame.width)")
+        let xLeftOver: CGFloat = ((self.view?.frame.width)! - size * CGFloat(gridSize)) / 2
+        let yLeftOver: CGFloat = ((self.view?.frame.height)! - size * CGFloat(gridSize)) / 2
+
         print("xLeftOver = \(xLeftOver) yLeftOver = \(yLeftOver)")
-        for row in 0...gridSize {
-            for col in 0...gridSize {
-                //let sprites = SKSpriteNode(color: .red, size: CGSize(width: size, height: size))
-                let sprites = SKShapeNode(rectOf: CGSize(width: size, height: size * 2))
-                
+        
+        for row in 0..<gridSize{
+            for col in 0..<gridSize{
+                print("row: \(row), col: \(col)")
+                let sprites = SKShapeNode(rectOf: CGSize(width: size, height: size))
+                print("sprites size starts as: \(sprites.frame.size)")
+
                 sprites.fillColor = hiddenColor
                 sprites.name = "Neutral"
-                
                 sprites.strokeColor = outlineColor
                 sprites.lineWidth = size * CGFloat(0.1)// / CGFloat(10)
+
                 let xPlacement: CGFloat = size * CGFloat(col) + CGFloat(1)
                 let yPlacement: CGFloat = size * CGFloat(row) + CGFloat(1)
                 let xBuffer: CGFloat = size / 2 - 1 + xLeftOver // (Width - (Floor(size) * 4)) / 2
-                let yBuffer: CGFloat = size / 2 + yLeftOver // (Height - (size * 7)) / 2
-                //sprites.position = CGPoint(x: (size * col + 1) + size / 2 - 1, y: (size * row + 1) + size / 2 + 7)
+                let yBuffer: CGFloat = size / 2 - 1 + yLeftOver // (Height - (size * 7)) / 2
                 sprites.position = CGPoint(x: xPlacement + xBuffer, y: yPlacement + yBuffer)
+                print("position: \(sprites.position), size: \(sprites.frame.size)")
+
                 self.addChild(sprites)
                 squareArray.append(sprites)
             }
         }
+        
+//        let sprite = SKShapeNode(rectOf: CGSize(width: size, height: size))
+//        sprite.fillColor = hiddenColor
+//        sprite.name = "Neutral"
+//        sprite.strokeColor = outlineColor
+//        sprite.lineWidth = size * CGFloat(0.1)
+//        sprite.position = CGPoint(x: 50, y: 50)
+//        print("position: \(sprite.position), size: \(sprite.frame.size)")
+//        self.addChild(sprite)
+//        squareArray.append(sprite)
     }
     
     func hideColors(){

@@ -58,7 +58,9 @@ class MainScreenViewController: UIViewController {
         
         // Button corners
         startButtonLabel.layer.cornerRadius = 5
-        gridSKView.presentScene(GridScene(size: view.bounds.size))
+        
+        gridSKView.presentScene(GridScene(size: gridSKView.bounds.size))
+        print("GridScene view.bounds.size: \(view.bounds.size)")
     }
     
     private func updateViews() {
