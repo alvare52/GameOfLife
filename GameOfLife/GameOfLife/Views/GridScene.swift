@@ -25,13 +25,16 @@ class GridScene: SKScene {
     var bufferSpace: CGFloat = 11.25
     var yBuffer: CGFloat = 3.9
     var squareArray:[SKShapeNode] = [SKShapeNode]() // Property in your class
-    var outlineColor: UIColor = .lightGray
-    var rightColor: UIColor = UIColor.red
+    
+    /// White, same as background color
+    var outlineColor: UIColor = .white
+    var rightColor: UIColor = .black
     var wrongColor: UIColor = UIColor.black
     var hiddenColor: UIColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
     var rightCount: CGFloat = 0
     var touchEnabled = false
-    var gridSize = 5
+    var gridSize = 6
+    var currentSquareIndex = 0
     
     override func didMove(to view: SKView) {
         
@@ -40,7 +43,9 @@ class GridScene: SKScene {
         backgroundColor = .white
         print("Screen Height is \(self.frame.height), Width is \(self.frame.width)")
         makeGrid()
-        hideColors()
+//        hideColors()
+//        runForever()
+        pickRandoms()
     }
     
     func makeGrid() {
@@ -72,7 +77,7 @@ class GridScene: SKScene {
                 sprites.fillColor = hiddenColor
                 sprites.name = "Neutral"
                 sprites.strokeColor = outlineColor
-                sprites.lineWidth = size * CGFloat(0.1)// / CGFloat(10)
+                sprites.lineWidth = size * CGFloat(0.05)// / CGFloat(10)
 
                 let xPlacement: CGFloat = size * CGFloat(col) + CGFloat(1)
                 let yPlacement: CGFloat = size * CGFloat(row) + CGFloat(1)
@@ -85,52 +90,43 @@ class GridScene: SKScene {
                 squareArray.append(sprites)
             }
         }
-        
-//        let sprite = SKShapeNode(rectOf: CGSize(width: size, height: size))
-//        sprite.fillColor = hiddenColor
-//        sprite.name = "Neutral"
-//        sprite.strokeColor = outlineColor
-//        sprite.lineWidth = size * CGFloat(0.1)
-//        sprite.position = CGPoint(x: 50, y: 50)
-//        print("position: \(sprite.position), size: \(sprite.frame.size)")
-//        self.addChild(sprite)
-//        squareArray.append(sprite)
     }
     
-    func hideColors(){
+    func clearGrid(){
         for square in squareArray {
-            square.fillColor = hiddenColor
-            touchEnabled = true
-            //square.strokeColor = UIColor.black
-            //square.lineWidth = 1
+            square.fillColor = outlineColor
         }
     }
     
-    func allWrong(){
-        for square in squareArray {
-            square.fillColor = wrongColor
-            //backgroundColor = UIColor.red
-            //square.strokeColor = UIColor.red
+    func pickRandoms() {
+        for sqaure in squareArray {
+            let random = Int.random(in: 0...2)
+            if random == 1 {
+                print(random)
+                sqaure.fillColor = rightColor
+            } else {
+                print(random)
+            }
         }
-        // Makes sound when you tap anywhere on screen
-        //let systemSoundID: SystemSoundID = 1024
-        //AudioServicesPlaySystemSound (systemSoundID)
-        // CRASH
-        //abort()
     }
     
-    func allRight() {
-        for square in squareArray {
-            square.fillColor = rightColor
-            //backgroundColor = UIColor.green
-            //square.strokeColor = UIColor.green
+    func runForever() {
+        
+        print("currentSquareIndex = \(currentSquareIndex)")
+        
+        if currentSquareIndex >= gridSize * gridSize {
+            print("END")
+            return
         }
-        // Makes sound when you tap anywhere on screen
-        //let systemSoundID: SystemSoundID = 1025
-        //AudioServicesPlaySystemSound (systemSoundID)
         
-        print("You win!")
+        squareArray[currentSquareIndex].fillColor = .purple
+        currentSquareIndex += 1
         
+        run(SKAction.sequence([
+            SKAction.wait(forDuration: 0.1),
+            SKAction.run(runForever)
+        ])
+        )
     }
     
     // runs 60 times every SECOND
@@ -162,7 +158,15 @@ class GridScene: SKScene {
                 if let theName = self.atPoint(location).name {
                     
                     if touchEnabled {
-                        node.fillColor = rightColor
+                        
+                        if node.name == "Neutral" {
+                            node.fillColor = rightColor
+                            node.name = "Alive"
+                        } else {
+                            node.fillColor = hiddenColor
+                            node.name = "Neutral"
+                        }
+//                        node.fillColor = rightColor
                         let systemSoundID: SystemSoundID = 1104
                         AudioServicesPlaySystemSound (systemSoundID)
                     }

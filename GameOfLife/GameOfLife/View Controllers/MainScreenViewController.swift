@@ -40,6 +40,8 @@ class MainScreenViewController: UIViewController {
             startButtonLabel.setTitle("Start", for: .normal)
         }
         
+        gridScene.clearGrid()
+        gridScene.pickRandoms()
         //addBookToLibrary()
     }
     
@@ -47,6 +49,8 @@ class MainScreenViewController: UIViewController {
     
     var generationCount = 0
     var gameIsRunning = false
+    
+    var gridScene: GridScene!
     
     // MARK: - View Life Cycle
     
@@ -58,8 +62,9 @@ class MainScreenViewController: UIViewController {
         
         // Button corners
         startButtonLabel.layer.cornerRadius = 5
-        
-        gridSKView.presentScene(GridScene(size: gridSKView.bounds.size))
+        gridScene = GridScene(size: gridSKView.bounds.size)
+        gridSKView.presentScene(gridScene)
+//        gridSKView.presentScene(GridScene(size: gridSKView.bounds.size))
         print("GridScene view.bounds.size: \(view.bounds.size)")
     }
     
