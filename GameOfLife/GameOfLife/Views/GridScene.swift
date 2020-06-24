@@ -24,7 +24,8 @@ class GridScene: SKScene {
     var rightCount: CGFloat = 0
     var touchEnabled = true
     var gridSize = 5
-    var currentSquareIndex = 0
+    var currentSquareIndexX = 0
+    var currentSquareIndexY = 0
     var singleArray: [SKShapeNode] = [SKShapeNode]()
     
     override func didMove(to view: SKView) {
@@ -35,8 +36,51 @@ class GridScene: SKScene {
         print("Screen Height is \(self.frame.height), Width is \(self.frame.width)")
         makeGrid()
 //        hideColors()
-//        runForever()
-        pickRandoms()
+        runForever()
+//        pickRandoms()
+        getPotentialNeighbors(x: 4, y: 1)
+    }
+    
+    func getPotentialNeighbors(x: Int, y: Int) {
+        print("getPotential Neighbors called with Cell: \(x) ,\(y)")
+        var neighbors = [PotentialNeighbor]()
+        
+        let topLeft = PotentialNeighbor(x: x - 1, y: y + 1)
+        neighbors.append(topLeft)
+        
+        let topMid = PotentialNeighbor(x: x, y: y + 1)
+        neighbors.append(topMid)
+        
+        let topRight = PotentialNeighbor(x: x + 1, y: y + 1)
+        neighbors.append(topRight)
+        
+        let left = PotentialNeighbor(x: x - 1, y: y)
+        neighbors.append(left)
+        
+        let right = PotentialNeighbor(x: x + 1, y: y)
+        neighbors.append(right)
+        
+        let bottomLeft = PotentialNeighbor(x: x - 1, y: y - 1)
+        neighbors.append(bottomLeft)
+        
+        let bottomMid = PotentialNeighbor(x: x, y: y - 1)
+        neighbors.append(bottomMid)
+        
+        let bottomRight = PotentialNeighbor(x: x + 1, y: y - 1)
+        neighbors.append(bottomRight)
+        
+        for potentialNeighbor in neighbors {
+            // Check if x AND y are between 0..<gridSize
+            if 0..<gridSize ~= potentialNeighbor.x && 0..<gridSize ~= potentialNeighbor.y {
+                print("ACTUAL Neighbor \(potentialNeighbor.x),\(potentialNeighbor.y)")
+            }
+        }
+    }
+    
+    // how do i make x,y not have to be named? or tuple
+    struct PotentialNeighbor {
+        var x: Int
+        var y: Int
     }
     
     private func makeGrid() {
@@ -52,12 +96,12 @@ class GridScene: SKScene {
 
         print("xLeftOver = \(xLeftOver) yLeftOver = \(yLeftOver)")
         
-        for row in 0..<gridSize{
+        for y in 0..<gridSize{
             
             // append a new array for every row
             squareArray.append([SKShapeNode]())
-            for col in 0..<gridSize{
-                print("row: \(row), col: \(col)")
+            for x in 0..<gridSize{
+                print("x: \(x), y: \(y)")
                 let sprites = SKShapeNode(rectOf: CGSize(width: size, height: size))
                 print("sprites size starts as: \(sprites.frame.size)")
 
@@ -66,17 +110,16 @@ class GridScene: SKScene {
                 sprites.strokeColor = outlineColor
                 sprites.lineWidth = size * CGFloat(0.05)// / CGFloat(10)
 
-                let xPlacement: CGFloat = size * CGFloat(col) + CGFloat(1)
-                let yPlacement: CGFloat = size * CGFloat(row) + CGFloat(1)
+                let xPlacement: CGFloat = size * CGFloat(x) + CGFloat(1)
+                let yPlacement: CGFloat = size * CGFloat(y) + CGFloat(1)
                 let xBuffer: CGFloat = size / 2 - 1 + xLeftOver // (Width - (Floor(size) * 4)) / 2
                 let yBuffer: CGFloat = size / 2 - 1 + yLeftOver // (Height - (size * 7)) / 2
                 sprites.position = CGPoint(x: xPlacement + xBuffer, y: yPlacement + yBuffer)
                 print("position: \(sprites.position), size: \(sprites.frame.size)")
 
                 self.addChild(sprites)
-                print("row: \(row), col: \(col)")
-                singleArray.append(sprites)
-                squareArray[row].append(sprites)
+                print("y: \(y), x: \(x)")
+                squareArray[y].append(sprites)
             }
         }
        
@@ -84,53 +127,69 @@ class GridScene: SKScene {
     }
     
     func clearGrid(){
-        for x in 0..<gridSize {
-            for y in 0..<gridSize{
-                squareArray[x][y].fillColor = hiddenColor
+        for y in 0..<gridSize {
+            for x in 0..<gridSize{
+                
+//                switch y {
+//                case 0:
+//                    squareArray[y][x].fillColor = .red
+//                case 1:
+//                    squareArray[y][x].fillColor = .orange
+//                case 2:
+//                    squareArray[y][x].fillColor = .yellow
+//                case 3:
+//                    squareArray[y][x].fillColor = .green
+//                case 4:
+//                    squareArray[y][x].fillColor = .blue
+//                default:
+//                    squareArray[y][x].fillColor = .brown
+//                }
+                
+                squareArray[y][x].fillColor = hiddenColor
                 print("clearing [\(x)][\(y)]")
             }
         }
     }
 
     func pickRandoms() {
-        
-        for x in 0..<gridSize {
-            for y in 0..<gridSize{
+        print("pickRandoms called")
+        for y in 0..<gridSize {
+            for x in 0..<gridSize{
                 let random = Int.random(in: 0...2)
                 if random == 1 {
-                    squareArray[x][y].fillColor = rightColor
+                    squareArray[y][x].fillColor = rightColor
+                    print("randomly picked [\(x)][\(y)]")
                 }
             }
         }
-//        for sqaure in squareArray {
-//            let random = Int.random(in: 0...2)
-//            if random == 1 {
-//                print(random)
-//                sqaure.fillColor = rightColor
-//            } else {
-//                print(random)
-//            }
-//        }
     }
 
-//    func runForever() {
-//
-//        print("currentSquareIndex = \(currentSquareIndex)")
-//
-//        if currentSquareIndex >= gridSize * gridSize {
-//            print("END")
-//            return
-//        }
-//
-////        squareArray[currentSquareIndex].fillColor = .purple
-//        currentSquareIndex += 1
-//
-//        run(SKAction.sequence([
-//            SKAction.wait(forDuration: 0.1),
-//            SKAction.run(runForever)
-//        ])
-//        )
-//    }
+    func runForever() {
+
+//        print("currentSquareIndexX = \(currentSquareIndexX)")
+
+        if currentSquareIndexX >= gridSize {
+            print("END y \(currentSquareIndexY), x's done")
+            currentSquareIndexY += 1
+            currentSquareIndexX = 0
+        }
+        
+        if currentSquareIndexY >= gridSize {
+            print("END")
+            return
+        }
+        
+        let current = squareArray[currentSquareIndexY][currentSquareIndexX]
+        current.fillColor = .purple
+        print("current[\(currentSquareIndexX)][\(currentSquareIndexY)]")
+        currentSquareIndexX += 1
+
+        run(SKAction.sequence([
+            SKAction.wait(forDuration: 0.25),
+            SKAction.run(runForever)
+        ])
+        )
+    }
     
     // runs 60 times every SECOND
     override func update(_ currentTime: CFTimeInterval) {
