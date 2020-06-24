@@ -37,39 +37,36 @@ class GridScene: SKScene {
 //        hideColors()
 //        runForever()
 //        pickRandoms()
-        getPotentialNeighbors(x: 4, y: 1)
     }
     
     // TODO: swap PotentialNeighbor struct with a tuple
-    func getPotentialNeighbors(x: Int, y: Int) {
+    func getPotentialNeighbors(x: Int, y: Int) -> [(x: Int, y: Int)] {
         print("getPotential Neighbors called with Cell: \(x) ,\(y)")
-        var neighborinos = [PotentialNeighbor]()
+        var neighborinos = [(x: Int, y: Int)]()
+        var realNeighborinos = [(x: Int, y: Int)]()
         
-        let myTuple = (x: 3, y: 3)
-//        print("myTuple = (\(myTuple.x), \(myTuple.y))")
-        
-        let topLeft = PotentialNeighbor(x: x - 1, y: y + 1)
+        let topLeft = (x: x - 1, y: y + 1)
         neighborinos.append(topLeft)
         
-        let topMid = PotentialNeighbor(x: x, y: y + 1)
+        let topMid = (x: x, y: y + 1)
         neighborinos.append(topMid)
         
-        let topRight = PotentialNeighbor(x: x + 1, y: y + 1)
+        let topRight = (x: x + 1, y: y + 1)
         neighborinos.append(topRight)
         
-        let left = PotentialNeighbor(x: x - 1, y: y)
+        let left = (x: x - 1, y: y)
         neighborinos.append(left)
         
-        let right = PotentialNeighbor(x: x + 1, y: y)
+        let right = (x: x + 1, y: y)
         neighborinos.append(right)
         
-        let bottomLeft = PotentialNeighbor(x: x - 1, y: y - 1)
+        let bottomLeft = (x: x - 1, y: y - 1)
         neighborinos.append(bottomLeft)
         
-        let bottomMid = PotentialNeighbor(x: x, y: y - 1)
+        let bottomMid = (x: x, y: y - 1)
         neighborinos.append(bottomMid)
         
-        let bottomRight = PotentialNeighbor(x: x + 1, y: y - 1)
+        let bottomRight = (x: x + 1, y: y - 1)
         neighborinos.append(bottomRight)
         
         var neighborinoCount = 0
@@ -78,22 +75,21 @@ class GridScene: SKScene {
             if 0..<gridSize ~= potentialNeighbor.x && 0..<gridSize ~= potentialNeighbor.y {
                 print("ACTUAL Neighbor \(potentialNeighbor.x),\(potentialNeighbor.y)")
                 neighborinoCount += 1
+                realNeighborinos.append(potentialNeighbor)
             }
         }
         print("neighborinoCount = \(neighborinoCount)")
-        var myArray = [(x: Int, y: Int)]()
-        myArray.append(myTuple)
-        for thing in myArray {
-            print("thing \(thing.x), \(thing.y)")
-        }
+        print(realNeighborinos)
+        return realNeighborinos
     }
     
     // how do i make x,y not have to be named? or tuple
-    struct PotentialNeighbor {
-        var x: Int
-        var y: Int
-    }
+//    struct PotentialNeighbor {
+//        var x: Int
+//        var y: Int
+//    }
     
+    // FIXME: cells are overlapping eachother, noticable with grids of 7 and up
     private func makeGrid() {
         
         print("X: \(frame.width) Y: \(frame.height)")
@@ -114,40 +110,41 @@ class GridScene: SKScene {
             for x in 0..<gridSize{
                 print("x: \(x), y: \(y)")
                 let sprites = Cell(rectSize: CGSize(width: size, height: size))
-                print("sprites size starts as: \(sprites.frame.size)")
+//                print("sprites size starts as: \(sprites.frame.size)")
 
                 sprites.fillColor = hiddenColor
                 sprites.name = "Neutral"
                 sprites.strokeColor = outlineColor
                 sprites.lineWidth = size * CGFloat(0.05)// / CGFloat(10)
 
-                let xPlacement: CGFloat = size * CGFloat(x) + CGFloat(1)
-                let yPlacement: CGFloat = size * CGFloat(y) + CGFloat(1)
+                let xPlacement: CGFloat = size * CGFloat(x) //+ CGFloat(1)
+                let yPlacement: CGFloat = size * CGFloat(y) //+ CGFloat(1)
+                
+                //                              2 - 1 + ...
                 let xBuffer: CGFloat = size / 2 - 1 + xLeftOver // (Width - (Floor(size) * 4)) / 2
                 let yBuffer: CGFloat = size / 2 - 1 + yLeftOver // (Height - (size * 7)) / 2
                 sprites.position = CGPoint(x: xPlacement + xBuffer, y: yPlacement + yBuffer)
-                print("position: \(sprites.position), size: \(sprites.frame.size)")
+//                print("position: \(sprites.position), size: \(sprites.frame.size)")
 
                 self.addChild(sprites)
-                print("y: \(y), x: \(x)")
+//                print("y: \(y), x: \(x)")
+                sprites.x = x
+                sprites.y = y
                 squareArray[y].append(sprites)
+//                print(sprites.description)
+                print(String(describing: sprites))
             }
         }
         
-//        let myCell = Cell(rectSize: CGSize(width: size, height: size))
-//        myCell.position = CGPoint(x: 100, y: 100)
-//        self.addChild(myCell)
-        squareArray[0][0].x = 3
-        squareArray[0][0].y = 5
-        print(squareArray[0][0].description)
         print(squareArray.count)
     }
     
     func clearGrid(){
         for y in 0..<gridSize {
             for x in 0..<gridSize{
-                squareArray[y][x].fillColor = hiddenColor
-                squareArray[y][x].name = "Neutral"
+//                squareArray[y][x].fillColor = hiddenColor
+//                squareArray[y][x].name = "Neutral"
+                squareArray[y][x].currentState = .dead
                 print("clearing [\(x)][\(y)]")
             }
         }
@@ -160,8 +157,9 @@ class GridScene: SKScene {
             for x in 0..<gridSize{
                 let random = Int.random(in: 0...2)
                 if random == 1 {
-                    squareArray[y][x].fillColor = rightColor
-                    squareArray[y][x].name = "Alive"
+//                    squareArray[y][x].fillColor = rightColor
+//                    squareArray[y][x].name = "Alive"
+                    squareArray[y][x].currentState = .alive
                     print("randomly picked [\(x)][\(y)]")
                 }
             }
@@ -183,13 +181,22 @@ class GridScene: SKScene {
             return
         }
         
+        clearGrid()
         let current = squareArray[currentSquareIndexY][currentSquareIndexX]
-        current.fillColor = .purple
+        
+        let neighbors = (getPotentialNeighbors(x: currentSquareIndexX, y: currentSquareIndexY))
+        for neighbor in neighbors {
+            squareArray[neighbor.y][neighbor.x].fillColor = .green
+        }
+        
+        current.currentState = .alive
+        //current.fillColor = .purple
+        print(current.description)
         print("current[\(currentSquareIndexX)][\(currentSquareIndexY)]")
         currentSquareIndexX += 1
 
         run(SKAction.sequence([
-            SKAction.wait(forDuration: 0.25),
+            SKAction.wait(forDuration: 0.5),
             SKAction.run(runForever)
         ])
         )
@@ -211,14 +218,18 @@ class GridScene: SKScene {
                     
                     if touchEnabled {
                         
-                        if node.name == "Neutral" {
-                            node.fillColor = rightColor
-                            node.name = "Alive"
-                            node.isAlive = .alive
+                        if node.currentState == .dead {
+                            print("tapped was dead, now alive")
+//                            node.fillColor = rightColor
+//                            node.name = "Alive"
+                            node.currentState = .alive
                         } else {
-                            node.fillColor = hiddenColor
-                            node.name = "Neutral"
+                            print("tapped was alive, now dead")
+//                            node.fillColor = hiddenColor
+//                            node.name = "Neutral"
+                            node.currentState = .dead
                         }
+                        print(node.description)
 //                        node.fillColor = rightColor
                         let systemSoundID: SystemSoundID = 1104
                         AudioServicesPlaySystemSound (systemSoundID)
@@ -243,15 +254,21 @@ class Cell: SKShapeNode {
     }
     
     // MARK: - Properties
-    var isAlive: State = .dead {
+    var currentState: State = .dead {
         didSet{
-            self.fillColor = aliveColor
+            if currentState == .dead {
+                self.fillColor = deadColor
+            }
+            else {
+                self.fillColor = aliveColor
+            }
         }
     }
     
     var nextState: State = .dead
     var x: Int = 0
     var y: Int = 0
+    
     var aliveColor: UIColor = .black {
         didSet {
             self.fillColor = aliveColor
@@ -259,7 +276,7 @@ class Cell: SKShapeNode {
     }
     
     override var description: String {
-        return "(\(x), \(y)), State: \(isAlive), nextState: \(nextState)"
+        return "(\(x), \(y)), State: \(currentState), nextState: \(nextState)"
     }
     
     var deadColor: UIColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
