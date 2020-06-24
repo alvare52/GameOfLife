@@ -14,6 +14,7 @@ class GridScene: SKScene {
    
     // MARK: - Properties
     
+    /// 2D array of Cells. Use [y][x] to access something instead of [x][y]
     var squareArray:[[Cell]] = [[]]
     
     /// White, same as background color
@@ -23,7 +24,7 @@ class GridScene: SKScene {
     var hiddenColor: UIColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
     var rightCount: CGFloat = 0
     var touchEnabled = true
-    var gridSize = 5
+    var gridSize = 6
     var currentSquareIndexX = 0
     var currentSquareIndexY = 0
     
@@ -34,9 +35,6 @@ class GridScene: SKScene {
         backgroundColor = .white
         print("Screen Height is \(self.frame.height), Width is \(self.frame.width)")
         makeGrid()
-//        hideColors()
-//        runForever()
-//        pickRandoms()
     }
     
     // TODO: swap PotentialNeighbor struct with a tuple
@@ -132,7 +130,7 @@ class GridScene: SKScene {
                 sprites.y = y
                 squareArray[y].append(sprites)
 //                print(sprites.description)
-                print(String(describing: sprites))
+//                print(String(describing: sprites))
             }
         }
         
@@ -165,6 +163,16 @@ class GridScene: SKScene {
             }
         }
     }
+    
+    func setNewGeneration() {
+        for y in 0..<gridSize {
+            for x in 0..<gridSize{
+                
+                squareArray[y][x].currentState = squareArray[y][x].nextState
+//                print("clearing [\(x)][\(y)]")
+            }
+        }
+    }
 
     func runForever() {
 
@@ -178,25 +186,60 @@ class GridScene: SKScene {
         
         if currentSquareIndexY >= gridSize {
             print("END")
+            setNewGeneration()
             return
         }
         
-        clearGrid()
+//        clearGrid()
         let current = squareArray[currentSquareIndexY][currentSquareIndexX]
         
         let neighbors = (getPotentialNeighbors(x: currentSquareIndexX, y: currentSquareIndexY))
+        var liveNeighborsCount = 0
+        
         for neighbor in neighbors {
             squareArray[neighbor.y][neighbor.x].fillColor = .green
+            if squareArray[neighbor.y][neighbor.x].currentState == .alive {
+                liveNeighborsCount += 1
+            }
         }
         
-        current.currentState = .alive
+        print("live neighbors = \(liveNeighborsCount)")
+        
+        // TODO: always revert back to dead anyway?
+        
+        // If ALIVE
+        if current.currentState == .alive {
+            // stay alive
+            if liveNeighborsCount == 2 || liveNeighborsCount == 3 {
+                current.nextState = .alive
+            }
+            // die
+            else {
+                current.nextState = .dead
+            }
+        }
+        
+        // If DEAD
+        else {
+            // come life
+            if liveNeighborsCount == 3 {
+                current.nextState = .alive
+            }
+            // stay dead
+            else {
+                current.nextState = .dead
+            }
+        }
+        
+        
+//        current.currentState = .alive
         //current.fillColor = .purple
         print(current.description)
         print("current[\(currentSquareIndexX)][\(currentSquareIndexY)]")
         currentSquareIndexX += 1
 
         run(SKAction.sequence([
-            SKAction.wait(forDuration: 0.5),
+            SKAction.wait(forDuration: 0.1),
             SKAction.run(runForever)
         ])
         )
@@ -247,7 +290,7 @@ class GridScene: SKScene {
 /// Subclass of SKShapeNode
 class Cell: SKShapeNode {
     
-    ///
+    /// Cells can either be dead or alive
     enum State {
         case alive
         case dead
@@ -265,8 +308,13 @@ class Cell: SKShapeNode {
         }
     }
     
+    /// currentState will be set to this during next generation
     var nextState: State = .dead
+    
+    /// Cell's X coordinate for 2D array of cells
     var x: Int = 0
+    
+    /// Cell's Y coordinate for 2D array of cells
     var y: Int = 0
     
     var aliveColor: UIColor = .black {
