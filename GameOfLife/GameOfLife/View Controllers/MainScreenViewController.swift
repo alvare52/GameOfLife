@@ -20,6 +20,7 @@ class MainScreenViewController: UIViewController {
     
     @IBAction func infoButtonTapped(_ sender: UIBarButtonItem) {
         print("Info tapped")
+        gridScene.runForever()
     }
     
     @IBOutlet var gridSKView: SKView!

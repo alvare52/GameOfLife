@@ -14,7 +14,7 @@ class GridScene: SKScene {
    
     // MARK: - Properties
     
-    var squareArray:[[SKShapeNode]] = [[]]
+    var squareArray:[[Cell]] = [[]]
     
     /// White, same as background color
     var outlineColor: UIColor = .white
@@ -26,7 +26,6 @@ class GridScene: SKScene {
     var gridSize = 5
     var currentSquareIndexX = 0
     var currentSquareIndexY = 0
-    var singleArray: [SKShapeNode] = [SKShapeNode]()
     
     override func didMove(to view: SKView) {
         
@@ -36,44 +35,56 @@ class GridScene: SKScene {
         print("Screen Height is \(self.frame.height), Width is \(self.frame.width)")
         makeGrid()
 //        hideColors()
-        runForever()
+//        runForever()
 //        pickRandoms()
         getPotentialNeighbors(x: 4, y: 1)
     }
     
+    // TODO: swap PotentialNeighbor struct with a tuple
     func getPotentialNeighbors(x: Int, y: Int) {
         print("getPotential Neighbors called with Cell: \(x) ,\(y)")
-        var neighbors = [PotentialNeighbor]()
+        var neighborinos = [PotentialNeighbor]()
+        
+        let myTuple = (x: 3, y: 3)
+//        print("myTuple = (\(myTuple.x), \(myTuple.y))")
         
         let topLeft = PotentialNeighbor(x: x - 1, y: y + 1)
-        neighbors.append(topLeft)
+        neighborinos.append(topLeft)
         
         let topMid = PotentialNeighbor(x: x, y: y + 1)
-        neighbors.append(topMid)
+        neighborinos.append(topMid)
         
         let topRight = PotentialNeighbor(x: x + 1, y: y + 1)
-        neighbors.append(topRight)
+        neighborinos.append(topRight)
         
         let left = PotentialNeighbor(x: x - 1, y: y)
-        neighbors.append(left)
+        neighborinos.append(left)
         
         let right = PotentialNeighbor(x: x + 1, y: y)
-        neighbors.append(right)
+        neighborinos.append(right)
         
         let bottomLeft = PotentialNeighbor(x: x - 1, y: y - 1)
-        neighbors.append(bottomLeft)
+        neighborinos.append(bottomLeft)
         
         let bottomMid = PotentialNeighbor(x: x, y: y - 1)
-        neighbors.append(bottomMid)
+        neighborinos.append(bottomMid)
         
         let bottomRight = PotentialNeighbor(x: x + 1, y: y - 1)
-        neighbors.append(bottomRight)
+        neighborinos.append(bottomRight)
         
-        for potentialNeighbor in neighbors {
+        var neighborinoCount = 0
+        for potentialNeighbor in neighborinos {
             // Check if x AND y are between 0..<gridSize
             if 0..<gridSize ~= potentialNeighbor.x && 0..<gridSize ~= potentialNeighbor.y {
                 print("ACTUAL Neighbor \(potentialNeighbor.x),\(potentialNeighbor.y)")
+                neighborinoCount += 1
             }
+        }
+        print("neighborinoCount = \(neighborinoCount)")
+        var myArray = [(x: Int, y: Int)]()
+        myArray.append(myTuple)
+        for thing in myArray {
+            print("thing \(thing.x), \(thing.y)")
         }
     }
     
@@ -99,10 +110,10 @@ class GridScene: SKScene {
         for y in 0..<gridSize{
             
             // append a new array for every row
-            squareArray.append([SKShapeNode]())
+            squareArray.append([Cell]())
             for x in 0..<gridSize{
                 print("x: \(x), y: \(y)")
-                let sprites = SKShapeNode(rectOf: CGSize(width: size, height: size))
+                let sprites = Cell(rectSize: CGSize(width: size, height: size))
                 print("sprites size starts as: \(sprites.frame.size)")
 
                 sprites.fillColor = hiddenColor
@@ -122,30 +133,21 @@ class GridScene: SKScene {
                 squareArray[y].append(sprites)
             }
         }
-       
+        
+//        let myCell = Cell(rectSize: CGSize(width: size, height: size))
+//        myCell.position = CGPoint(x: 100, y: 100)
+//        self.addChild(myCell)
+        squareArray[0][0].x = 3
+        squareArray[0][0].y = 5
+        print(squareArray[0][0].description)
         print(squareArray.count)
     }
     
     func clearGrid(){
         for y in 0..<gridSize {
             for x in 0..<gridSize{
-                
-//                switch y {
-//                case 0:
-//                    squareArray[y][x].fillColor = .red
-//                case 1:
-//                    squareArray[y][x].fillColor = .orange
-//                case 2:
-//                    squareArray[y][x].fillColor = .yellow
-//                case 3:
-//                    squareArray[y][x].fillColor = .green
-//                case 4:
-//                    squareArray[y][x].fillColor = .blue
-//                default:
-//                    squareArray[y][x].fillColor = .brown
-//                }
-                
                 squareArray[y][x].fillColor = hiddenColor
+                squareArray[y][x].name = "Neutral"
                 print("clearing [\(x)][\(y)]")
             }
         }
@@ -153,11 +155,13 @@ class GridScene: SKScene {
 
     func pickRandoms() {
         print("pickRandoms called")
+        clearGrid()
         for y in 0..<gridSize {
             for x in 0..<gridSize{
                 let random = Int.random(in: 0...2)
                 if random == 1 {
                     squareArray[y][x].fillColor = rightColor
+                    squareArray[y][x].name = "Alive"
                     print("randomly picked [\(x)][\(y)]")
                 }
             }
@@ -192,30 +196,16 @@ class GridScene: SKScene {
     }
     
     // runs 60 times every SECOND
-    override func update(_ currentTime: CFTimeInterval) {
-        //checkIfBallReachesTheBottom()
-    }
-    
-    // returns random number
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    // returns random number between min and max
-    func random(min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
-    }
-    
-    func randomNumber(to: CGFloat) -> CGFloat {
-        return random() * (to - 1) + 1
-    }
+//    override func update(_ currentTime: CFTimeInterval) {
+//        //checkIfBallReachesTheBottom()
+//    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
             let location = touch.location(in: self)
             
-            if let node = atPoint(location) as? SKShapeNode {
+            if let node = atPoint(location) as? Cell {
                 print("tapped node at a location")
                 if let theName = self.atPoint(location).name {
                     
@@ -224,6 +214,7 @@ class GridScene: SKScene {
                         if node.name == "Neutral" {
                             node.fillColor = rightColor
                             node.name = "Alive"
+                            node.isAlive = .alive
                         } else {
                             node.fillColor = hiddenColor
                             node.name = "Neutral"
@@ -239,5 +230,52 @@ class GridScene: SKScene {
             print("location.x = \(location.x)")
         }
         print("Touched Anywhere")
+    }
+}
+
+/// Subclass of SKShapeNode
+class Cell: SKShapeNode {
+    
+    ///
+    enum State {
+        case alive
+        case dead
+    }
+    
+    // MARK: - Properties
+    var isAlive: State = .dead {
+        didSet{
+            self.fillColor = aliveColor
+        }
+    }
+    
+    var nextState: State = .dead
+    var x: Int = 0
+    var y: Int = 0
+    var aliveColor: UIColor = .black {
+        didSet {
+            self.fillColor = aliveColor
+        }
+    }
+    
+    override var description: String {
+        return "(\(x), \(y)), State: \(isAlive), nextState: \(nextState)"
+    }
+    
+    var deadColor: UIColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
+    
+    init(rectSize: CGSize) {
+        super.init()
+        let shape = SKShapeNode(rectOf: rectSize)
+        // Uses frame instead of making rect because the rect init with origin was
+        // messing up the x for the whole grid
+        self.path = CGPath(rect: shape.frame, transform: nil)
+        self.fillColor = .gray
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 }
