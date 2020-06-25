@@ -38,14 +38,15 @@ class MainScreenViewController: UIViewController {
         updateViews()
         
         // toggle start/stop and update button label
-        gameIsRunning.toggle()
-        if gameIsRunning {
-            startButtonLabel.setTitle("Stop", for: .normal)
-        } else {
-            startButtonLabel.setTitle("Start", for: .normal)
-        }
         
-        gridScene.startLoop()
+        if gameIsRunning {
+            startButtonLabel.setTitle("Start", for: .normal)
+            gridScene.stopLoop()
+        } else {
+            startButtonLabel.setTitle("Stop", for: .normal)
+            gridScene.startLoop()
+        }
+        gameIsRunning.toggle()
     }
     
     // MARK: - Properties

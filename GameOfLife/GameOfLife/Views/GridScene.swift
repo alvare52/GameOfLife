@@ -138,18 +138,21 @@ class GridScene: SKScene {
     }
     
     func clearGrid(){
+        print("clearGrid called")
+        stopLoop()
         for y in 0..<gridSize {
             for x in 0..<gridSize{
 //                squareArray[y][x].fillColor = hiddenColor
 //                squareArray[y][x].name = "Neutral"
                 squareArray[y][x].currentState = .dead
-                print("clearing [\(x)][\(y)]")
+//                print("clearing [\(x)][\(y)]")
             }
         }
     }
 
     func pickRandoms() {
         print("pickRandoms called")
+        
         clearGrid()
         for y in 0..<gridSize {
             for x in 0..<gridSize{
@@ -167,12 +170,16 @@ class GridScene: SKScene {
     func startLoop() {
         print("startLoop called")
         let sequence = SKAction.sequence([
-            SKAction.wait(forDuration: 0.5),
-            SKAction.run(getNextGeneration)
+            SKAction.run(getNextGeneration),
+            SKAction.wait(forDuration: 0.5)
         ])
         var action = SKAction.repeatForever(sequence)
         run(action)
-        
+    }
+    
+    func stopLoop() {
+        print("stopLoop called")
+        self.removeAllActions()
     }
     
     func setNewGeneration() {
