@@ -16,15 +16,51 @@ class MainScreenViewController: UIViewController {
     
     @IBAction func clearBoardTapped(_ sender: UIBarButtonItem) {
         print("Clear board")
+        
+//        if gameIsRunning {
+//            gridScene.stopLoop()
+//            gridScene.duration = 0.5
+//            gridScene.startLoop()
+//        }
+//
+//        else {
+//            gridScene.duration = 0.5
+//        }
+        
         gridScene.clearGrid()
     }
     
     @IBAction func infoButtonTapped(_ sender: UIBarButtonItem) {
         print("Info tapped")
-//        gridScene.runForever()
         gridScene.pickRandoms()
-//        gridScene.setNewGeneration()
     }
+    
+    @IBAction func colorButtonTapped(_ sender: UIButton) {
+        print("colorButtonTapped")
+        
+        // go back to beginning of array if you're at the end
+        if colorChoiceIndex == colors.count - 1 {
+            colorChoiceIndex = 0
+        } else {
+            colorChoiceIndex += 1
+        }
+        gridScene.setColor(color: colors[colorChoiceIndex])
+        colorButtonLabel.backgroundColor = colors[colorChoiceIndex]
+    }
+    
+    @IBOutlet var colorButtonLabel: UIButton!
+    
+    @IBAction func speedButtonTapped(_ sender: UIButton) {
+        print("speedButtonTapped")
+    }
+
+    @IBOutlet var speedButtonLable: UIButton!
+    
+    @IBAction func randomButtonTapped(_ sender: UIButton) {
+        print("randomButtonTapped")
+        gridScene.pickRandoms()
+    }
+    @IBOutlet var randomButtonLabel: UIButton!
     
     @IBOutlet var gridSKView: SKView!
     
@@ -57,6 +93,11 @@ class MainScreenViewController: UIViewController {
     
     var gameIsRunning = false
     
+    let colors: [UIColor] = [.black, .red, .orange, .yellow, .green , .blue, .cyan,
+                             .systemIndigo, .purple, .magenta, .systemPink]
+    var colorChoiceIndex = 0
+    var corner: CGFloat = 10.0
+    
     var gridScene: GridScene!
     
     // MARK: - View Life Cycle
@@ -68,7 +109,11 @@ class MainScreenViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
         
         // Button corners
-        startButtonLabel.layer.cornerRadius = 5
+        startButtonLabel.layer.cornerRadius = corner
+        colorButtonLabel.layer.cornerRadius = corner
+        speedButtonLable.layer.cornerRadius = corner
+        randomButtonLabel.layer.cornerRadius = corner
+        
         gridScene = GridScene(size: gridSKView.bounds.size)
         gridSKView.presentScene(gridScene)
 //        gridSKView.presentScene(GridScene(size: gridSKView.bounds.size))

@@ -42,7 +42,9 @@ class Cell: SKShapeNode {
     /// Color used to represent a living cell (defaults to .black). Automatically updates color when set
     var aliveColor: UIColor = .black {
         didSet {
-            self.fillColor = aliveColor
+            if self.currentState == .alive {
+                self.fillColor = aliveColor
+            }
         }
     }
     

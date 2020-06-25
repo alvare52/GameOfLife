@@ -41,19 +41,64 @@
                                     <action selector="startButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eW9-MI-Y7n"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yn6-6p-YJq">
+                                <rect key="frame" x="20" y="616" width="374" height="44.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="colorButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ych-28-6VD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGK-ij-1Aa">
+                                <rect key="frame" x="20" y="680.5" width="374" height="45"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <state key="normal" title="Medium">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="speedButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gh6-I9-pvE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5u-Ug-WPt">
+                                <rect key="frame" x="20" y="745.5" width="374" height="44.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                <state key="normal" title="Random">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="randomButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zfe-5q-FeH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="yn6-6p-YJq" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.05" id="3jc-HK-0ck"/>
                             <constraint firstItem="tUS-yt-a3J" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="4NS-qL-Wjz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oVs-66-W0F" secondAttribute="trailing" constant="20" id="5d8-OI-pYu"/>
+                            <constraint firstItem="k5u-Ug-WPt" firstAttribute="top" secondItem="qGK-ij-1Aa" secondAttribute="bottom" constant="20" id="6Ku-cB-aGH"/>
                             <constraint firstItem="tUS-yt-a3J" firstAttribute="top" secondItem="RMR-LZ-v0d" secondAttribute="bottom" constant="20" id="6dy-jW-1zR"/>
+                            <constraint firstItem="qGK-ij-1Aa" firstAttribute="top" secondItem="yn6-6p-YJq" secondAttribute="bottom" constant="20" id="7m6-Lg-ZAO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tUS-yt-a3J" secondAttribute="trailing" constant="20" id="98O-Ux-8H8"/>
                             <constraint firstItem="oVs-66-W0F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="EW0-rJ-fDT"/>
                             <constraint firstItem="tUS-yt-a3J" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.05" id="FwI-Cz-BhT"/>
+                            <constraint firstItem="yn6-6p-YJq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="I63-B8-gwO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="k5u-Ug-WPt" secondAttribute="trailing" constant="20" id="ILh-80-tQv"/>
+                            <constraint firstItem="k5u-Ug-WPt" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.05" id="NF8-My-ckt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qGK-ij-1Aa" secondAttribute="trailing" constant="20" id="SN5-ww-vPV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RMR-LZ-v0d" secondAttribute="trailing" constant="20" id="WPA-C9-xDl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yn6-6p-YJq" secondAttribute="trailing" constant="20" id="aJo-lU-VMU"/>
                             <constraint firstItem="RMR-LZ-v0d" firstAttribute="top" secondItem="oVs-66-W0F" secondAttribute="bottom" constant="20" id="bXR-Jn-Gm6"/>
+                            <constraint firstItem="k5u-Ug-WPt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="bci-cj-XQb"/>
+                            <constraint firstItem="yn6-6p-YJq" firstAttribute="top" secondItem="tUS-yt-a3J" secondAttribute="bottom" constant="20" id="cOo-fa-bne"/>
                             <constraint firstItem="oVs-66-W0F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="iAl-2U-x1v"/>
                             <constraint firstItem="RMR-LZ-v0d" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="mDj-rE-2aA"/>
+                            <constraint firstItem="qGK-ij-1Aa" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.05" id="mbn-Jb-cYA"/>
+                            <constraint firstItem="qGK-ij-1Aa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="rE5-wR-UXw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -70,8 +115,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="colorButtonLabel" destination="yn6-6p-YJq" id="nuc-Mm-B12"/>
                         <outlet property="generationLabel" destination="RMR-LZ-v0d" id="ITC-mq-fgj"/>
                         <outlet property="gridSKView" destination="oVs-66-W0F" id="fJi-nw-Mie"/>
+                        <outlet property="randomButtonLabel" destination="k5u-Ug-WPt" id="1BK-6M-Ewr"/>
+                        <outlet property="speedButtonLable" destination="qGK-ij-1Aa" id="h96-yx-GgY"/>
                         <outlet property="startButtonLabel" destination="tUS-yt-a3J" id="NzV-CQ-zZB"/>
                     </connections>
                 </viewController>

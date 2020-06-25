@@ -27,7 +27,7 @@ class GridScene: SKScene {
     var gridSize = 25
     var currentSquareIndexX = 0
     var currentSquareIndexY = 0
-    var duration: TimeInterval = 0.3
+    var duration: TimeInterval = 0.22
     var generationCounter = 0 {
         // Send notification every time generation count is changed to update label in VC
         didSet {
@@ -94,11 +94,11 @@ class GridScene: SKScene {
     
     // MARK: - Game Controls
     
-    func setColor() {
+    func setColor(color: UIColor) {
         print("called setColor")
         for y in 0..<gridSize {
             for x in 0..<gridSize{
-                squareArray[y][x].aliveColor = .red
+                squareArray[y][x].aliveColor = color
             }
         }
     }
