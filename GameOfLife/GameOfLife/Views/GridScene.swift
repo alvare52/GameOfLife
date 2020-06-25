@@ -24,7 +24,7 @@ class GridScene: SKScene {
     var hiddenColor: UIColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.05)
     var rightCount: CGFloat = 0
     var touchEnabled = true
-    var gridSize = 6
+    var gridSize = 25
     var currentSquareIndexX = 0
     var currentSquareIndexY = 0
     
@@ -164,7 +164,21 @@ class GridScene: SKScene {
         }
     }
     
+    func startLoop() {
+        print("startLoop called")
+        let sequence = SKAction.sequence([
+            SKAction.wait(forDuration: 0.5),
+            SKAction.run(getNextGeneration)
+        ])
+        var action = SKAction.repeatForever(sequence)
+        run(action)
+        
+    }
+    
     func setNewGeneration() {
+        currentSquareIndexX = 0
+        currentSquareIndexY = 0
+        
         for y in 0..<gridSize {
             for x in 0..<gridSize{
                 
@@ -172,6 +186,72 @@ class GridScene: SKScene {
 //                print("clearing [\(x)][\(y)]")
             }
         }
+    }
+    
+    func getNextGeneration() {
+        print("called getNextGeneration")
+        
+        if currentSquareIndexX >= gridSize {
+            print("END y \(currentSquareIndexY), x's done")
+            currentSquareIndexY += 1
+            currentSquareIndexX = 0
+        }
+        
+        if currentSquareIndexY >= gridSize {
+            print("END")
+            setNewGeneration()
+            return
+        }
+        
+        //        clearGrid()
+        let current = squareArray[currentSquareIndexY][currentSquareIndexX]
+        
+        let neighbors = (getPotentialNeighbors(x: currentSquareIndexX, y: currentSquareIndexY))
+        var liveNeighborsCount = 0
+        
+        for neighbor in neighbors {
+            squareArray[neighbor.y][neighbor.x].fillColor = .green
+            if squareArray[neighbor.y][neighbor.x].currentState == .alive {
+                liveNeighborsCount += 1
+            }
+        }
+        
+        print("live neighbors = \(liveNeighborsCount)")
+        
+        // TODO: always revert back to dead anyway?
+        
+        // If ALIVE
+        if current.currentState == .alive {
+            // stay alive
+            if liveNeighborsCount == 2 || liveNeighborsCount == 3 {
+                current.nextState = .alive
+            }
+                // die
+            else {
+                current.nextState = .dead
+            }
+        }
+            
+            // If DEAD
+        else {
+            // come life
+            if liveNeighborsCount == 3 {
+                current.nextState = .alive
+            }
+                // stay dead
+            else {
+                current.nextState = .dead
+            }
+        }
+        
+        
+        //        current.currentState = .alive
+        //current.fillColor = .purple
+        print(current.description)
+        print("current[\(currentSquareIndexX)][\(currentSquareIndexY)]")
+        currentSquareIndexX += 1
+        
+        getNextGeneration()
     }
 
     func runForever() {
@@ -248,6 +328,7 @@ class GridScene: SKScene {
     // runs 60 times every SECOND
 //    override func update(_ currentTime: CFTimeInterval) {
 //        //checkIfBallReachesTheBottom()
+//
 //    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

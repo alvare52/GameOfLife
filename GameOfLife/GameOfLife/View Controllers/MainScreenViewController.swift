@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import Foundation
 
 class MainScreenViewController: UIViewController {
 
@@ -20,7 +21,9 @@ class MainScreenViewController: UIViewController {
     
     @IBAction func infoButtonTapped(_ sender: UIBarButtonItem) {
         print("Info tapped")
-        gridScene.runForever()
+//        gridScene.runForever()
+        gridScene.pickRandoms()
+//        gridScene.setNewGeneration()
     }
     
     @IBOutlet var gridSKView: SKView!
@@ -42,9 +45,7 @@ class MainScreenViewController: UIViewController {
             startButtonLabel.setTitle("Start", for: .normal)
         }
         
-        gridScene.clearGrid()
-        gridScene.pickRandoms()
-        //addBookToLibrary()
+        gridScene.startLoop()
     }
     
     // MARK: - Properties
