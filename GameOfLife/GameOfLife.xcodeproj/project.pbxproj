@@ -74,7 +74,6 @@
 			children = (
 				1BBBC3AB24A1203900CD28FD /* Main.storyboard */,
 				1BBBC3B024A1204200CD28FD /* LaunchScreen.storyboard */,
-				1BBBC3C224A12EAB00CD28FD /* GridScene.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -90,6 +89,7 @@
 		1BBBC3BB24A121D100CD28FD /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1BBBC3C224A12EAB00CD28FD /* GridScene.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";

@@ -27,7 +27,15 @@ class GridScene: SKScene {
     var gridSize = 25
     var currentSquareIndexX = 0
     var currentSquareIndexY = 0
-    var duration: TimeInterval = 0.1
+    var duration: TimeInterval = 0.3
+    var generationCounter = 0 {
+        // Send notification every time generation count is changed to update label in VC
+        didSet {
+            // Step 4
+            NotificationCenter.default.post(name: .updateGenLabel,
+            object: self)
+        }
+    }
     
     override func didMove(to view: SKView) {
         //print("Screen Height is \(self.frame.height), Width is \(self.frame.width)")
@@ -86,9 +94,21 @@ class GridScene: SKScene {
     
     // MARK: - Game Controls
     
+    func setColor() {
+        print("called setColor")
+        for y in 0..<gridSize {
+            for x in 0..<gridSize{
+                squareArray[y][x].aliveColor = .red
+            }
+        }
+    }
+    
     /// Sets all cells on grid to .dead
     func clearGrid(){
         print("clearGrid called")
+        
+        generationCounter = 0
+        
         stopLoop()
         for y in 0..<gridSize {
             for x in 0..<gridSize{
@@ -234,6 +254,9 @@ class GridScene: SKScene {
     private func setNewGeneration() {
         currentSquareIndexX = 0
         currentSquareIndexY = 0
+        
+        generationCounter += 1
+        print("Generation: \(generationCounter)")
         
         for y in 0..<gridSize {
             for x in 0..<gridSize{

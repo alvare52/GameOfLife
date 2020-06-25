@@ -34,7 +34,7 @@ class MainScreenViewController: UIViewController {
     
     @IBAction func startButtonTapped(_ sender: UIButton) {
         print("Start Button tapped")
-        generationCount += 1
+        
         updateViews()
         
         // toggle start/stop and update button label
@@ -51,7 +51,10 @@ class MainScreenViewController: UIViewController {
     
     // MARK: - Properties
     
-    var generationCount = 0
+    var generationCount: Int {
+        return gridScene.generationCounter
+    }
+    
     var gameIsRunning = false
     
     var gridScene: GridScene!
@@ -70,10 +73,18 @@ class MainScreenViewController: UIViewController {
         gridSKView.presentScene(gridScene)
 //        gridSKView.presentScene(GridScene(size: gridSKView.bounds.size))
         print("GridScene view.bounds.size: \(view.bounds.size)")
+        
+        // Step 2
+        NotificationCenter.default.addObserver(self,
+        selector: #selector(updateViews),
+        name: .updateGenLabel,
+        object: nil)
+        
     }
     
-    private func updateViews() {
-        generationLabel.text = "Generation \(generationCount)"
+    // Step 3
+    @objc private func updateViews() {
+        generationLabel.text = "Generation \(gridScene.generationCounter)"
     }
     
     /// Adds current book to user's library and presents an action sheet to choose which shelf to put it in
@@ -115,4 +126,9 @@ class MainScreenViewController: UIViewController {
     }
     */
 
+}
+
+// Step 1
+extension NSNotification.Name {
+    static let updateGenLabel = NSNotification.Name("updateGenLabel")
 }
