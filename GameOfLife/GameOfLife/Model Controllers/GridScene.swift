@@ -280,22 +280,18 @@ class GridScene: SKScene {
             
             if let node = atPoint(location) as? Cell {
                 print("tapped node at a location")
-                if let theName = self.atPoint(location).name {
+                if touchEnabled {
                     
-                    if touchEnabled {
-                        
-                        if node.currentState == .dead {
-                            print("tapped was dead, now alive")
-                            node.currentState = .alive
-                        } else {
-                            print("tapped was alive, now dead")
-                            node.currentState = .dead
-                        }
-                        print(node.description)
-                        let systemSoundID: SystemSoundID = 1104
-                        AudioServicesPlaySystemSound (systemSoundID)
+                    if node.currentState == .dead {
+                        print("tapped was dead, now alive")
+                        node.currentState = .alive
+                    } else {
+                        print("tapped was alive, now dead")
+                        node.currentState = .dead
                     }
-
+                    print(node.description)
+                    let systemSoundID: SystemSoundID = 1104
+                    AudioServicesPlaySystemSound (systemSoundID)
                 }
             }
             print("location.x = \(location.x), location.y = \(location.y)")

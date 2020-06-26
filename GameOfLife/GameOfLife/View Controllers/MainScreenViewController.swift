@@ -25,12 +25,12 @@ class MainScreenViewController: UIViewController {
         // go back to beginning of array if you're at the end
         if colorChoiceIndex == colors.count - 1 {
             colorChoiceIndex = 0
-            //infoButtonLabel.tintColor = .white // black
+            infoButtonLabel.tintColor = .white // black
         } else {
             colorChoiceIndex += 1
-            //infoButtonLabel.tintColor = colors[colorChoiceIndex]
+            infoButtonLabel.tintColor = colors[colorChoiceIndex]
         }
-        lineBreak.backgroundColor = colors[colorChoiceIndex]
+//        lineBreak.backgroundColor = colors[colorChoiceIndex]
         gridScene.setColor(color: colors[colorChoiceIndex])
     }
     
