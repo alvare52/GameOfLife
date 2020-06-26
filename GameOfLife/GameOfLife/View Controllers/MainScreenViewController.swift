@@ -16,42 +16,52 @@ class MainScreenViewController: UIViewController {
     
     @IBAction func clearBoardTapped(_ sender: UIBarButtonItem) {
         print("Clear board")
-        
-//        if gameIsRunning {
-//            gridScene.stopLoop()
-//            gridScene.duration = 0.5
-//            gridScene.startLoop()
-//        }
-//
-//        else {
-//            gridScene.duration = 0.5
-//        }
-        
         gridScene.clearGrid()
     }
     
     @IBAction func infoButtonTapped(_ sender: UIBarButtonItem) {
         print("Info tapped")
-        gridScene.pickRandoms()
-    }
-    
-    @IBAction func colorButtonTapped(_ sender: UIButton) {
-        print("colorButtonTapped")
-        
         // go back to beginning of array if you're at the end
         if colorChoiceIndex == colors.count - 1 {
             colorChoiceIndex = 0
+            //infoButtonLabel.tintColor = .white // black
         } else {
             colorChoiceIndex += 1
+            //infoButtonLabel.tintColor = colors[colorChoiceIndex]
         }
+        lineBreak.backgroundColor = colors[colorChoiceIndex]
         gridScene.setColor(color: colors[colorChoiceIndex])
-        colorButtonLabel.backgroundColor = colors[colorChoiceIndex]
     }
     
-    @IBOutlet var colorButtonLabel: UIButton!
+    @IBOutlet var infoButtonLabel: UIBarButtonItem!
     
     @IBAction func speedButtonTapped(_ sender: UIButton) {
         print("speedButtonTapped")
+        
+        if durationChoiceIndex == durations.count - 1 {
+            durationChoiceIndex = 0
+        } else {
+            durationChoiceIndex += 1
+        }
+        print("duration index = \(durationChoiceIndex)")
+        if gameIsRunning {
+            gridScene.stopLoop()
+            gridScene.duration = durations[durationChoiceIndex]
+            gridScene.startLoop()
+        }
+            
+        else {
+            gridScene.duration = durations[durationChoiceIndex]
+        }
+        
+        switch durationChoiceIndex {
+        case 1:
+            speedButtonLable.setTitle("Fast", for: .normal)
+        case 2:
+            speedButtonLable.setTitle("Slow", for: .normal)
+        default:
+            speedButtonLable.setTitle("Medium", for: .normal)
+        }
     }
 
     @IBOutlet var speedButtonLable: UIButton!
@@ -61,6 +71,8 @@ class MainScreenViewController: UIViewController {
         gridScene.pickRandoms()
     }
     @IBOutlet var randomButtonLabel: UIButton!
+    
+    @IBOutlet var lineBreak: UIView!
     
     @IBOutlet var gridSKView: SKView!
     
@@ -95,8 +107,10 @@ class MainScreenViewController: UIViewController {
     
     let colors: [UIColor] = [.black, .red, .orange, .yellow, .green , .blue, .cyan,
                              .systemIndigo, .purple, .magenta, .systemPink]
+    let durations: [Double] = [0.22, 0.11, 0.33]
     var colorChoiceIndex = 0
-    var corner: CGFloat = 10.0
+    var durationChoiceIndex = 0
+    var corner: CGFloat = 5.0
     
     var gridScene: GridScene!
     
@@ -110,7 +124,6 @@ class MainScreenViewController: UIViewController {
         
         // Button corners
         startButtonLabel.layer.cornerRadius = corner
-        colorButtonLabel.layer.cornerRadius = corner
         speedButtonLable.layer.cornerRadius = corner
         randomButtonLabel.layer.cornerRadius = corner
         
@@ -118,6 +131,7 @@ class MainScreenViewController: UIViewController {
         gridSKView.presentScene(gridScene)
 //        gridSKView.presentScene(GridScene(size: gridSKView.bounds.size))
         print("GridScene view.bounds.size: \(view.bounds.size)")
+        gridSKView.backgroundColor = .brown
         
         // Step 2
         NotificationCenter.default.addObserver(self,

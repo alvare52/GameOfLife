@@ -94,6 +94,7 @@ class GridScene: SKScene {
     
     // MARK: - Game Controls
     
+    /// Changes color of living cells
     func setColor(color: UIColor) {
         print("called setColor")
         for y in 0..<gridSize {
@@ -102,7 +103,7 @@ class GridScene: SKScene {
             }
         }
     }
-    
+        
     /// Sets all cells on grid to .dead
     func clearGrid(){
         print("clearGrid called")
@@ -135,6 +136,7 @@ class GridScene: SKScene {
     /// Starts loop that gets new generation of cells every x seconds
     func startLoop() {
         print("startLoop called")
+        touchEnabled = false
         let sequence = SKAction.sequence([
             SKAction.run(getNextGeneration),
             SKAction.wait(forDuration: duration)
@@ -146,6 +148,7 @@ class GridScene: SKScene {
     /// Removes all actions from scene
     func stopLoop() {
         print("stopLoop called")
+        touchEnabled = true
         self.removeAllActions()
     }
     
