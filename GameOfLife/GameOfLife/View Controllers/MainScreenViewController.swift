@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import Foundation
+import AVFoundation
 
 class MainScreenViewController: UIViewController {
 
@@ -88,9 +89,11 @@ class MainScreenViewController: UIViewController {
         // toggle start/stop and update button label
         
         if gameIsRunning {
+            AudioServicesPlaySystemSound(SystemSoundID(1118))
             startButtonLabel.setTitle("Start", for: .normal)
             gridScene.stopLoop()
         } else {
+            AudioServicesPlaySystemSound(SystemSoundID(1117))
             startButtonLabel.setTitle("Stop", for: .normal)
             gridScene.startLoop()
         }

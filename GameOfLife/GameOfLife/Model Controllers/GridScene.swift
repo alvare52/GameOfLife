@@ -49,7 +49,7 @@ class GridScene: SKScene {
         // Background Color
         backgroundColor = .white
         
-        print("SKView.frame: \(self.view?.frame.width), \(self.view?.frame.height)")
+        //print("SKView.frame: \(self.view?.frame.width), \(self.view?.frame.height)")
         print("Size should be \(floor((self.view?.frame.width)! / CGFloat(gridSize)))")
         let size: CGFloat = ((self.view?.frame.width)! / CGFloat(gridSize))
         print("size is \(size)")
@@ -207,7 +207,7 @@ class GridScene: SKScene {
         }
         
         if currentSquareIndexY >= gridSize {
-            print("END")
+            //print("END")
             setNewGeneration()
             return
         }
@@ -262,7 +262,7 @@ class GridScene: SKScene {
         currentSquareIndexY = 0
         
         generationCounter += 1
-        print("Generation: \(generationCounter)")
+        //print("Generation: \(generationCounter)")
         
         for y in 0..<gridSize {
             for x in 0..<gridSize{
