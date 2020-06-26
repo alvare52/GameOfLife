@@ -49,9 +49,9 @@ class GridScene: SKScene {
         // Background Color
         backgroundColor = .white
         
-        print("X: \(frame.width) Y: \(frame.height)")
-        print("Size should be \(floor(frame.width / CGFloat(gridSize)))")
-        let size: CGFloat = floor((self.view?.frame.width)! / CGFloat(gridSize))
+        print("SKView.frame: \(self.view?.frame.width), \(self.view?.frame.height)")
+        print("Size should be \(floor((self.view?.frame.width)! / CGFloat(gridSize)))")
+        let size: CGFloat = ((self.view?.frame.width)! / CGFloat(gridSize))
         print("size is \(size)")
         
         // left over from flooring
@@ -65,23 +65,26 @@ class GridScene: SKScene {
             // append a new array for every row
             squareArray.append([Cell]())
             for x in 0..<gridSize{
-                print("x: \(x), y: \(y)")
+                //print("x: \(x), y: \(y)")
                 let sprites = Cell(rectSize: CGSize(width: size, height: size))
 //                print("sprites size starts as: \(sprites.frame.size)")
 
                 sprites.fillColor = hiddenColor
                 sprites.name = "Neutral"
                 sprites.strokeColor = outlineColor
-                sprites.lineWidth = size * CGFloat(0.05)// / CGFloat(10)
+                //sprites.lineWidth = size * CGFloat(0.05)// / CGFloat(10)
+                sprites.lineWidth = 0
+                print("sprites.lineWidth = \(sprites.lineWidth)")
 
                 let xPlacement: CGFloat = size * CGFloat(x) //+ CGFloat(1)
                 let yPlacement: CGFloat = size * CGFloat(y) //+ CGFloat(1)
-                
+                print("xPlacement = \(xPlacement), yPlacement = \(yPlacement)")
                 //                              2 - 1 + ...
-                let xBuffer: CGFloat = size / 2 - 1 + xLeftOver // (Width - (Floor(size) * 4)) / 2
-                let yBuffer: CGFloat = size / 2 - 1 + yLeftOver // (Height - (size * 7)) / 2
+                let xBuffer: CGFloat = (size / 2) + xLeftOver // (Width - (Floor(size) * 4)) / 2
+                let yBuffer: CGFloat = (size / 2) + yLeftOver // (Height - (size * 7)) / 2
+                print("xBuffer = \(xBuffer), yBuffer = \(yBuffer)")
                 sprites.position = CGPoint(x: xPlacement + xBuffer, y: yPlacement + yBuffer)
-
+                print("sprites.postion = \(sprites.position)")
                 self.addChild(sprites)
                 sprites.x = x
                 sprites.y = y
