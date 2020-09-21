@@ -2,6 +2,8 @@
 
 Conway's Game of Life is a cellular automaton created by John Horton Conway in 1970.
 
+![](GameOfLifeGIF.gif)
+
 https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
 ### Basic Rules
